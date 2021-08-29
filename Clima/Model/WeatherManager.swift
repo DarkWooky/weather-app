@@ -3,7 +3,6 @@
 //  Clima
 //
 //  Created by Egor Mihalevich on 29.08.21.
-//  Copyright © 2021 App Brewery. All rights reserved.
 //
 
 import Foundation
@@ -12,6 +11,7 @@ import Foundation
 
 protocol WeatherManagerDelegate {
     func didUpdateWeather(_ weatherManager: WeatherManager, weather: WeatherModel)
+    func didFailWithError(error: Error)
 }
 
 // MARK: - WeatherManager
@@ -38,7 +38,7 @@ struct WeatherManager {
             
             let task = session.dataTask(with: url) { data, _, error in
                 if error != nil {
-                    print(error!)
+                    self.delegate?.didFailWithError(error: error!)
                     return
                 }
                 
@@ -65,7 +65,7 @@ struct WeatherManager {
             let weather = WeatherModel(conditionId: id, cityName: name, temperature: temp)
             return weather
         } catch {
-            print(error)
+            delegate?.didFailWithError(error: error)
             return nil
         }
     }
