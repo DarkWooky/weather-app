@@ -5,6 +5,7 @@
 //  Created by Egor Mihalevich on 29.08.21.
 //
 
+import CoreLocation
 import Foundation
 
 // MARK: - WeatherManagerDelegate
@@ -23,6 +24,11 @@ struct WeatherManager {
 
     func fetchWeather(cityName: String) {
         let urlString = "\(weatherURL)&q=\(cityName)"
+        performRequest(with: urlString)
+    }
+    
+    func fetchWeather(latitude: CLLocationDegrees, longitude: CLLocationDegrees) {
+        let urlString = "\(weatherURL)&lat=\(latitude)&lon=\(longitude)"
         performRequest(with: urlString)
     }
     
